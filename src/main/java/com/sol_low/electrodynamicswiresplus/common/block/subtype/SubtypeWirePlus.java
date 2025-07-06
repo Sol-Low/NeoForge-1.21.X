@@ -14,6 +14,7 @@ import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 
 import javax.annotation.Nullable;
+import java.util.Collections;
 import java.util.Map;
 import java.util.HashMap;
 
@@ -74,6 +75,14 @@ public enum SubtypeWirePlus implements ISubtype, IWire {
         this.wireClass    = wireClass;
         this.color        = color;
         this.defaultColor = defaultColor;
+    }
+
+    public static BlockWire getWire(IWireMaterial wireMaterial, IInsulationMaterial insulation, IWireClass wireClass, IWireColor color) {
+        return WIRES
+                .getOrDefault(wireMaterial, Collections.emptyMap())
+                .getOrDefault(insulation, Collections.emptyMap())
+                .getOrDefault(wireClass, Collections.emptyMap())
+                .getOrDefault(color, null);
     }
 
 
