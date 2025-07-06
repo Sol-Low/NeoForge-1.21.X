@@ -18,7 +18,11 @@ version = mod_version
 group = mod_group_id
 
 repositories {
-    // Add here additional repositories if required by some of the dependencies below.
+    mavenCentral()
+    maven { url "https://repo.neoforged.net/repository/maven-public/" }
+    flatDir {
+        dirs "libs"
+    }
 }
 
 base {
@@ -112,6 +116,15 @@ configurations {
 }
 
 dependencies {
+    // compile “only” the API if you ever care about separating, but optional:
+    compileOnly name: "voltaic-1.21.1-1.0.0-3"
+
+    // the _actual_ mods to load in your run/client/mods:
+    implementation fileTree(dir: 'libs', include: ['electrodynamics-*.jar','voltaic-*.jar'])
+
+    // NeoForge itself
+    implementation "net.neoforged:neoforge:${neo_version}"
+
     // Example optional mod dependency with JEI
     // The JEI API is declared for compile time use, while the full JEI artifact is used at runtime
     // compileOnly "mezz.jei:jei-${mc_version}-common-api:${jei_version}"
