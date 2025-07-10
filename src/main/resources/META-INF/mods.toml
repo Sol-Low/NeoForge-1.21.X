@@ -1,0 +1,17 @@
+modId="electrodynamicswiresplus"
+version="1.0.0"
+displayName="Electrodynamics Wires Plus"
+
+dependencies {
+modId = electrodynamics = "1.21.1" # Match Electrodynamics version
+}
+
+modLoader="javafml"
+loaderVersion="${loader_version_range}"
+license="${mod_license}"
+[[mods]]
+modId="${mod_id}"
+version="${mod_version}"
+displayName="${mod_name}"
+authors="${mod_authors}"
+description='''${mod_description}'''
