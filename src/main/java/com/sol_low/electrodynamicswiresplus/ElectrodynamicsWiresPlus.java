@@ -4,12 +4,14 @@ import com.mojang.logging.LogUtils;
 import com.sol_low.electrodynamicswiresplus.common.Registration;
 import com.sol_low.electrodynamicswiresplus.common.block.subtype.SubtypeWirePlus;
 import com.sol_low.electrodynamicswiresplus.common.item.PlusItems;
+import electrodynamics.Electrodynamics;
 import electrodynamics.common.block.connect.BlockWire;
 import electrodynamics.common.eventbus.RegisterWiresEvent;
 import net.minecraft.world.item.CreativeModeTabs;
 import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
+import net.neoforged.bus.api.Event;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -28,6 +30,7 @@ public class ElectrodynamicsWiresPlus {
         //NeoForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
         PlusItems.register(modEventBus);
+        Registration.init(modEventBus);
 
 
     }
@@ -48,18 +51,16 @@ public class ElectrodynamicsWiresPlus {
 
 
 
+    //@Mod(Electrodynamics.ID)  // defaults to their MOD bus
+    public class ElectrodynamicsWiresPlusEvents {
 
-
-    @SubscribeEvent
-    public void onRegisterWire(RegisterWiresEvent event) {
-        for (SubtypeWirePlus subtype : SubtypeWirePlus.values()) {
-            Block block = Registration.WIRES.get(subtype).get();
-            if (block instanceof BlockWire wire) {
+        @SubscribeEvent
+        public void onRegisterWire(RegisterWiresEvent event) {
+            for (SubtypeWirePlus subtype : SubtypeWirePlus.values()) {
+                BlockWire wire = Registration.WIRES.get(subtype).get();
                 event.registerWire(wire);
-            } else {
-                ElectrodynamicsWiresPlus.LOGGER.warn("Expected BlockWire but got {}", block.getClass().getName());
+
             }
         }
     }
-
 }

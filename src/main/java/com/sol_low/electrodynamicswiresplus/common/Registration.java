@@ -28,7 +28,7 @@ public class Registration {
         ITEMS.register(modBus);
 
         for (SubtypeWirePlus subtype : SubtypeWirePlus.values()) {
-            String name = subtype.getWireColor().toString();
+            String name = subtype.tag();
             // 1) register the block itself
             DeferredHolder<Block, BlockWire> wireBlock =
                     BLOCKS.register(name, () -> new BlockWire(subtype));

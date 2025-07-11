@@ -12,6 +12,7 @@ import net.minecraft.world.item.Item;
 import voltaic.api.network.cable.type.IWire;
 import voltaic.prefab.utilities.math.Color;
 
+import java.util.Locale;
 import java.util.Objects;
 
 public enum SubtypeWirePlus implements IWire {
@@ -23,6 +24,13 @@ public enum SubtypeWirePlus implements IWire {
             new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255)),
             VoltaicTags.Items.INSULATED_COPPER_WIRES
 
+    ),
+    INSULATED_SUPERCONDUCTIVE_PURPLE(
+            WireMaterial.SUPERCONDUCTIVE,
+            InsulationMaterial.WOOL,
+            WireClass.INSULATED,
+            new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255)),
+            VoltaicTags.Items.INSULATED_COPPER_WIRES
     );
 
     private final WireMaterial material;
@@ -38,6 +46,10 @@ public enum SubtypeWirePlus implements IWire {
         this.wireClass = wireClass;
         this.color = color;
         this.itemTag = itemTag;
+    }
+    public String tag() {
+        // name() is the enum constant name, e.g. INSULATEDPURPLE
+        return "wire" + name().toLowerCase(Locale.ROOT);
     }
 
     @Override public WireMaterial getWireMaterial() { return material; }
@@ -72,9 +84,8 @@ public enum SubtypeWirePlus implements IWire {
         @NotNull
         public  TagKey<Item> getDyeTag() {
             return ItemTags.create(Objects.requireNonNull(ResourceLocation.tryParse("minecraft:dyes/" + name)));
-
-
         }
+
     }
     //public static SimpleWireColor PURPLE = new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255));
 }
