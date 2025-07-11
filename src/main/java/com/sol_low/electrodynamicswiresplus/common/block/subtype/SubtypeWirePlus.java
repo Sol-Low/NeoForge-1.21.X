@@ -120,7 +120,7 @@ public enum SubtypeWirePlus implements IWire {
         this.color = color;
         this.itemTag = itemTag;
     }
-    public String tag() {
+    public String getSerializedName() {
         // name() is the enum constant name, e.g. INSULATEDPURPLE
         return "wire" + name().toLowerCase(Locale.ROOT);
     }

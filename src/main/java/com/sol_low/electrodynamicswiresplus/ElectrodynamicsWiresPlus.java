@@ -12,11 +12,16 @@ import net.minecraft.world.level.block.Block;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.bus.api.Event;
+import net.neoforged.fml.ModContainer;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.fml.event.lifecycle.FMLCommonSetupEvent;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
 import net.neoforged.neoforge.event.server.ServerStartingEvent;
+import net.neoforged.neoforge.registries.DeferredHolder;
 import org.slf4j.Logger;
+
+import java.util.Map;
 
 @Mod(ElectrodynamicsWiresPlus.MODID)
 public class ElectrodynamicsWiresPlus {
@@ -25,7 +30,7 @@ public class ElectrodynamicsWiresPlus {
     public static final Logger LOGGER = LogUtils.getLogger();
 
     //Constructor
-    public ElectrodynamicsWiresPlus(IEventBus modEventBus) {
+    public ElectrodynamicsWiresPlus(IEventBus modEventBus, ModContainer modContainer) {
         modEventBus.addListener(this::commonSetup);
         //NeoForge.EVENT_BUS.register(this);
         modEventBus.addListener(this::addCreative);
@@ -51,15 +56,16 @@ public class ElectrodynamicsWiresPlus {
 
 
 
-    //@Mod(Electrodynamics.ID)  // defaults to their MOD bus
-    public class ElectrodynamicsWiresPlusEvents {
+    @EventBusSubscriber(modid = ElectrodynamicsWiresPlus.MODID, bus = EventBusSubscriber.Bus.MOD)
+    public static class  WireRegistrationSubscriber {
 
         @SubscribeEvent
-        public void onRegisterWire(RegisterWiresEvent event) {
-            for (SubtypeWirePlus subtype : SubtypeWirePlus.values()) {
-                BlockWire wire = Registration.WIRES.get(subtype).get();
+        public static void onRegisterWire(RegisterWiresEvent event) {
+            // for every one of your SubtypeWirePlus entries:
+            for (Map.Entry<SubtypeWirePlus, DeferredHolder<Block, BlockWire>> entry :
+                    Registration.WIRES.entrySet()) {
+                BlockWire wire = entry.getValue().get();
                 event.registerWire(wire);
-
             }
         }
     }

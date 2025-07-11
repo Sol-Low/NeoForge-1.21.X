@@ -28,15 +28,10 @@ public class Registration {
         ITEMS.register(modBus);
 
         for (SubtypeWirePlus subtype : SubtypeWirePlus.values()) {
-            String name = subtype.tag();
-            // 1) register the block itself
-            DeferredHolder<Block, BlockWire> wireBlock =
-                    BLOCKS.register(name, () -> new BlockWire(subtype));
-            // 2) register the block‐item
-            ITEMS.register(name, () -> new BlockItem(
-                    wireBlock.get(),
-                    new Item.Properties() //.Properties.tab(CreativeModeTabs.REDSTONE)
-            ));
+            String name = subtype.getSerializedName();
+            DeferredHolder<Block, BlockWire> wireBlock = BLOCKS.register(name, () -> new BlockWire(subtype));
+            ITEMS.register(name, () -> new BlockItem(wireBlock.get(), new Item.Properties()));
+            WIRES.put(subtype, wireBlock);
         }
     }
 }
