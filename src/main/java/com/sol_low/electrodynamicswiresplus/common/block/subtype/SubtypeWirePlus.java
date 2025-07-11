@@ -3,33 +3,106 @@ package com.sol_low.electrodynamicswiresplus.common.block.subtype;
 import electrodynamics.common.block.subtype.SubtypeWire.WireClass;
 import electrodynamics.common.block.subtype.SubtypeWire.WireMaterial;
 import electrodynamics.common.block.subtype.SubtypeWire.InsulationMaterial;
-import org.jetbrains.annotations.NotNull;
 import voltaic.common.tags.VoltaicTags;
-import net.minecraft.resources.ResourceLocation;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.tags.TagKey;
 import net.minecraft.world.item.Item;
 import voltaic.api.network.cable.type.IWire;
-import voltaic.prefab.utilities.math.Color;
-
 import java.util.Locale;
-import java.util.Objects;
+
 
 public enum SubtypeWirePlus implements IWire {
 
-    INSULATED_COPPER_PURPLE(
+    insulatedcopperpurple(
             WireMaterial.COPPER,
             InsulationMaterial.WOOL,
             WireClass.INSULATED,
-            new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255)),
+            ColorsPlus.PURPLE,
             VoltaicTags.Items.INSULATED_COPPER_WIRES
 
     ),
-    INSULATED_SUPERCONDUCTIVE_PURPLE(
+    insulatedsuperconductivepurple(
             WireMaterial.SUPERCONDUCTIVE,
             InsulationMaterial.WOOL,
             WireClass.INSULATED,
-            new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255)),
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_COPPER_WIRES
+    ),
+    insulatedsilverpurple(
+            WireMaterial.SILVER,
+            InsulationMaterial.WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_SILVER_WIRES
+    ),
+    insulatedtinpurple(
+            WireMaterial.TIN,
+            InsulationMaterial.WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_TIN_WIRES
+    ),
+    insulatedironpurple(
+            WireMaterial.IRON,
+            InsulationMaterial.WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_IRON_WIRES
+    ),
+    insulatedgoldpurple(
+            WireMaterial.GOLD,
+            InsulationMaterial.WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_GOLD_WIRES
+    ),
+    highlyinsulatedcopperpurple(
+            WireMaterial.COPPER,
+            InsulationMaterial.THICK_WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_COPPER_WIRES
+
+    ),
+    highlyinsulatedsuperconductivepurple(
+            WireMaterial.SUPERCONDUCTIVE,
+            InsulationMaterial.THICK_WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_COPPER_WIRES
+    ),
+    highlyinsulatedsilverpurple(
+            WireMaterial.SILVER,
+            InsulationMaterial.THICK_WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_SILVER_WIRES
+    ),
+    highlyinsulatedtinpurple(
+            WireMaterial.TIN,
+            InsulationMaterial.THICK_WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_TIN_WIRES
+    ),
+    highlyinsulatedironpurple(
+            WireMaterial.IRON,
+            InsulationMaterial.THICK_WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_IRON_WIRES
+    ),
+    highlyinsulatedgoldpurple(
+            WireMaterial.GOLD,
+            InsulationMaterial.THICK_WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PURPLE,
+            VoltaicTags.Items.INSULATED_GOLD_WIRES
+    ),
+    zplaceholder(
+            WireMaterial.SUPERCONDUCTIVE,
+            InsulationMaterial.WOOL,
+            WireClass.INSULATED,
+            ColorsPlus.PINK,
             VoltaicTags.Items.INSULATED_COPPER_WIRES
     );
 
@@ -61,31 +134,4 @@ public enum SubtypeWirePlus implements IWire {
     @Override public TagKey<Item> getItemTag() { return itemTag; }
     @Override public double getResistance() { return material.resistance(); }
     @Override public long getAmpacity() { return material.ampacity(); }
-
-    private static class SimpleWireColor implements IWire.IWireColor {
-        private final String name;
-        private final Color color;
-        public SimpleWireColor(String name, Color color) {
-            this.name = name;
-            this.color = color;
-        }
-
-        public String getSerializedName() {
-            return name;
-        }
-
-        @Override
-        @NotNull
-        public Color getColor() {
-            return color;
-        }
-
-        @Override
-        @NotNull
-        public  TagKey<Item> getDyeTag() {
-            return ItemTags.create(Objects.requireNonNull(ResourceLocation.tryParse("minecraft:dyes/" + name)));
-        }
-
-    }
-    //public static SimpleWireColor PURPLE = new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255));
 }
