@@ -1,30 +1,42 @@
 package com.sol_low.electrodynamicswiresplus.common;
 
-import com.sol_low.electrodynamicswiresplus.ElectrodynamicsWiresPlus;
-import com.sol_low.electrodynamicswiresplus.common.block.subtype.SubtypeWireAddon;
+import com.sol_low.electrodynamicswiresplus.common.block.subtype.SubtypeWirePlus;
 import electrodynamics.common.block.connect.BlockWire;
-import net.minecraft.core.registries.Registries;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.api.IEventBus;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
 
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.Map;
 
+import static com.sol_low.electrodynamicswiresplus.ElectrodynamicsWiresPlus.MODID;
+
 public class Registration {
-
     public static final DeferredRegister<Block> BLOCKS =
-            DeferredRegister.create(Registries.BLOCK, ElectrodynamicsWiresPlus.MODID);
+            DeferredRegister.createBlocks(MODID);
+    public static final DeferredRegister<Item>  ITEMS  =
+            DeferredRegister.createItems(MODID);
 
-    public static final Map<SubtypeWireAddon, DeferredHolder<Block, BlockWire>> WIRES = new HashMap<>();
+    public static final Map<SubtypeWirePlus, DeferredHolder<Block, BlockWire>> WIRES =
+            new EnumMap<>(SubtypeWirePlus.class);
 
-    static {
-        for (SubtypeWireAddon subtype : SubtypeWireAddon.values()) {
-            DeferredHolder<Block, BlockWire> reg = BLOCKS.register(
-                    subtype.name().toLowerCase(),
-                    () -> new BlockWire(subtype)
-            );
-            WIRES.put(subtype, reg);
+    public static void init(IEventBus modBus) {
+        BLOCKS.register(modBus);
+        ITEMS.register(modBus);
+
+        for (SubtypeWirePlus subtype : SubtypeWirePlus.values()) {
+            String name = subtype.getWireColor().toString();
+            // 1) register the block itself
+            DeferredHolder<Block, BlockWire> wireBlock =
+                    BLOCKS.register(name, () -> new BlockWire(subtype));
+            // 2) register the block‐item
+            ITEMS.register(name, () -> new BlockItem(
+                    wireBlock.get(),
+                    new Item.Properties() //.Properties.tab(CreativeModeTabs.REDSTONE)
+            ));
         }
     }
 }

@@ -3,6 +3,7 @@ package com.sol_low.electrodynamicswiresplus.common.block.subtype;
 import electrodynamics.common.block.subtype.SubtypeWire.WireClass;
 import electrodynamics.common.block.subtype.SubtypeWire.WireMaterial;
 import electrodynamics.common.block.subtype.SubtypeWire.InsulationMaterial;
+import org.jetbrains.annotations.NotNull;
 import voltaic.common.tags.VoltaicTags;
 import net.minecraft.resources.ResourceLocation;
 import net.minecraft.tags.ItemTags;
@@ -11,13 +12,15 @@ import net.minecraft.world.item.Item;
 import voltaic.api.network.cable.type.IWire;
 import voltaic.prefab.utilities.math.Color;
 
-public enum SubtypeWireAddon implements IWire {
+import java.util.Objects;
+
+public enum SubtypeWirePlus implements IWire {
 
     INSULATED_COPPER_PURPLE(
             WireMaterial.COPPER,
             InsulationMaterial.WOOL,
             WireClass.INSULATED,
-            new SimpleWireColor("purple", new Color(128, 0, 128, 255)),
+            new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255)),
             VoltaicTags.Items.INSULATED_COPPER_WIRES
 
     );
@@ -28,8 +31,8 @@ public enum SubtypeWireAddon implements IWire {
     private final IWire.IWireColor color;
     private final TagKey<Item> itemTag;
 
-    SubtypeWireAddon(WireMaterial material, InsulationMaterial insulation, WireClass wireClass,
-                     IWire.IWireColor color, TagKey<Item> itemTag) {
+    SubtypeWirePlus(WireMaterial material, InsulationMaterial insulation, WireClass wireClass,
+                    IWire.IWireColor color, TagKey<Item> itemTag) {
         this.material = material;
         this.insulation = insulation;
         this.wireClass = wireClass;
@@ -50,7 +53,6 @@ public enum SubtypeWireAddon implements IWire {
     private static class SimpleWireColor implements IWire.IWireColor {
         private final String name;
         private final Color color;
-
         public SimpleWireColor(String name, Color color) {
             this.name = name;
             this.color = color;
@@ -61,15 +63,18 @@ public enum SubtypeWireAddon implements IWire {
         }
 
         @Override
+        @NotNull
         public Color getColor() {
             return color;
         }
 
         @Override
-        public TagKey<Item> getDyeTag() {
-            return ItemTags.create(ResourceLocation.tryParse("minecraft:dyes/" + name));
+        @NotNull
+        public  TagKey<Item> getDyeTag() {
+            return ItemTags.create(Objects.requireNonNull(ResourceLocation.tryParse("minecraft:dyes/" + name)));
 
 
         }
     }
+    //public static SimpleWireColor PURPLE = new SimpleWireColor("PURPLE", new Color(128, 0, 128, 255));
 }
