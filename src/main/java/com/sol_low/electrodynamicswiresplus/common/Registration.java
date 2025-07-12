@@ -1,13 +1,18 @@
 package com.sol_low.electrodynamicswiresplus.common;
 
+import com.sol_low.electrodynamicswiresplus.ElectrodynamicsWiresPlus;
 import com.sol_low.electrodynamicswiresplus.common.block.subtype.SubtypeWirePlus;
 import electrodynamics.common.block.connect.BlockWire;
 import net.minecraft.world.item.BlockItem;
 import net.minecraft.world.item.Item;
 import net.minecraft.world.level.block.Block;
+import net.neoforged.bus.EventBus;
 import net.neoforged.bus.api.IEventBus;
+import net.neoforged.fml.common.EventBusSubscriber;
+import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.DeferredHolder;
 import net.neoforged.neoforge.registries.DeferredRegister;
+import voltaic.Voltaic;
 
 import java.util.EnumMap;
 import java.util.Map;
@@ -37,6 +42,7 @@ public class Registration {
                     wireBlock.get(),
                     new Item.Properties() //.Properties.tab(CreativeModeTabs.REDSTONE)
             ));
+            WIRES.put(subtype, wireBlock);
         }
     }
 }
